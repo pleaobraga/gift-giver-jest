@@ -4,7 +4,10 @@ import Gift from './Gift'
 
 describe('Gift', () => {
 
-    const gift = shallow(<Gift />)
+    const mockRemove = jest.fn();  
+    const id = 1;
+    const props = { gift: { id }, removeGift: mockRemove };
+    const gift = shallow(<Gift {...props} />);
 
     it('renders properly', () => {
         expect(gift).toMatchSnapshot();
@@ -24,7 +27,7 @@ describe('Gift', () => {
 
         it('updates the person in ´state´', () => {
             expect(gift.state().person).toEqual(person)
-        })
+        }) 
     })
 
     describe('when typing into the present input', () => {
@@ -40,10 +43,20 @@ describe('Gift', () => {
         })
     })
 
-    it('sum test', () => {  
-        gift.sum = jest.fn();
-        expect(gift.sum(1,2)).toBe(3)
+    describe('when clicking the ´remove gift´ button', () => {
+        beforeEach(() => {
+            gift.find('.btn-remove').simulate('click');
+        })
+
+        it('calls the removeGift callback', () => {
+            expect(mockRemove).toHaveBeenCalledWith(id);
+        })
     })
+
+    // it('sum test', () => {  
+    //     gift.sum = jest.fn();
+    //     expect(gift.sum(1,2)).toBe(3)
+    // })
 
 
 })
