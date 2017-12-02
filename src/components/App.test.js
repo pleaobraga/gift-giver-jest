@@ -2,9 +2,9 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import App from './App'
 
-const app = shallow(<App />);
+describe('App', () => {
 
-describe('<App/>', () => {
+    const app = shallow(<App />);
     
     it('renders correctly', () => {
         expect(app).toMatchSnapshot();
@@ -14,13 +14,26 @@ describe('<App/>', () => {
         expect(app.state().gifts).toEqual([]);
     })
 
-    it('adds a new gifts to state when clicking the ´add gifts´ button', () => {
-        app.find('.btn-add').simulate('click');
-        expect(app.state().gifts).toEqual([{id: 1}]);
-    })
+    describe('when clicking the ´add-gift´ button', () => {
+        
+        beforeEach(() => {
+            app.find('.btn-add').simulate('click');            
+        })
 
-    it('adds a new gift to the rendered ist when clicking the ´add gifts´ button', () => {
-        app.find('.btn-add').simulate('click');
-        expect(app.find('.gift-list').children().length).toEqual(2);
+        afterEach(() => {
+            app.setState({gifts: [] })
+        })
+        
+        it('adds a new gifts to state when clicking the ´add gifts´ button', () => {
+            expect(app.state().gifts).toEqual([{id: 1}]);
+        })
+    
+        it('adds a new gift to the rendered ist when clicking the ´add gifts´ button', () => {
+            expect(app.find('.gift-list').children().length).toEqual(1);
+        })
+
+        it('create a Gift component', () => {
+            expect(app.find('Gift').exists()).toBe(true)
+        })
     })
 })
