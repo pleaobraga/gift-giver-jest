@@ -53,10 +53,9 @@ describe('Gift', () => {
         })
     })
 
-    // it('sum test', () => {  
-    //     gift.sum = jest.fn();
-    //     expect(gift.sum(1,2)).toBe(3)
-    // })
+    it('sum test', () => {  
+        expect(gift.instance().sum(1,2)).toBe(3)
+    })
 
 
 })
